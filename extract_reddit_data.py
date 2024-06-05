@@ -28,7 +28,7 @@ class RedditAPI:
         return access_token
     
     def _get_reddit_data(self, endpoint):
-        res = requests.get(endpoint, headers=self.headers)
+        res = requests.get(endpoint, headers=self.headers, params={'limit': '100'})
         return res
     
     def get_crypto_curr_data(self):
@@ -132,6 +132,82 @@ class RedditAPI:
         solana_request = self._get_reddit_data('https://oauth.reddit.com/r/Solana/hot')
         solana_json = solana_request.json()
         for post in solana_json['data']['children']:
+            new_df = pd.DataFrame({
+                'approved_date': [post['data']['approved_at_utc']],
+                'thread_id': [post['kind'] + " _ " + post['data']['id']],
+                'subreddit': [post['data']['subreddit']],
+                'title': [post['data']['title']],
+                "body": [post['data']['selftext']],
+                'upvote_ratio': [post['data']['upvote_ratio']],
+                'ups': [post['data']['ups']],
+                'downs': [post['data']['downs']],
+                'score':  [post['data']['score']]
+            })
+            crypto_df = pd.concat([crypto_df, new_df], ignore_index=True)
+        return crypto_df
+    
+    def get_ripple_data(self):
+        crypto_df = pd.DataFrame()
+        ripple_request = self._get_reddit_data('https://oauth.reddit.com/r/Ripple/hot')
+        ripple_json = ripple_request.json()
+        for post in ripple_json['data']['children']:
+            new_df = pd.DataFrame({
+                'approved_date': [post['data']['approved_at_utc']],
+                'thread_id': [post['kind'] + " _ " + post['data']['id']],
+                'subreddit': [post['data']['subreddit']],
+                'title': [post['data']['title']],
+                "body": [post['data']['selftext']],
+                'upvote_ratio': [post['data']['upvote_ratio']],
+                'ups': [post['data']['ups']],
+                'downs': [post['data']['downs']],
+                'score':  [post['data']['score']]
+            })
+            crypto_df = pd.concat([crypto_df, new_df], ignore_index=True)
+        return crypto_df
+    
+    def get_cardano_data(self):
+        crypto_df = pd.DataFrame()
+        cardano_request = self._get_reddit_data('https://oauth.reddit.com/r/cardano/hot')
+        cardano_json = cardano_request.json()
+        for post in cardano_json['data']['children']:
+            new_df = pd.DataFrame({
+                'approved_date': [post['data']['approved_at_utc']],
+                'thread_id': [post['kind'] + " _ " + post['data']['id']],
+                'subreddit': [post['data']['subreddit']],
+                'title': [post['data']['title']],
+                "body": [post['data']['selftext']],
+                'upvote_ratio': [post['data']['upvote_ratio']],
+                'ups': [post['data']['ups']],
+                'downs': [post['data']['downs']],
+                'score':  [post['data']['score']]
+            })
+            crypto_df = pd.concat([crypto_df, new_df], ignore_index=True)
+        return crypto_df
+    
+    def get_tronix_data(self):
+        crypto_df = pd.DataFrame()
+        tronix_request = self._get_reddit_data('https://oauth.reddit.com/r/Tronix/hot')
+        tronix_json = tronix_request.json()
+        for post in tronix_json['data']['children']:
+            new_df = pd.DataFrame({
+                'approved_date': [post['data']['approved_at_utc']],
+                'thread_id': [post['kind'] + " _ " + post['data']['id']],
+                'subreddit': [post['data']['subreddit']],
+                'title': [post['data']['title']],
+                "body": [post['data']['selftext']],
+                'upvote_ratio': [post['data']['upvote_ratio']],
+                'ups': [post['data']['ups']],
+                'downs': [post['data']['downs']],
+                'score':  [post['data']['score']]
+            })
+            crypto_df = pd.concat([crypto_df, new_df], ignore_index=True)
+        return crypto_df
+    
+    def get_chainlink_data(self):
+        crypto_df = pd.DataFrame()
+        chainlink_request = self._get_reddit_data('https://oauth.reddit.com/r/Chainlink/hot')
+        chainlink_json = chainlink_request.json()
+        for post in chainlink_json['data']['children']:
             new_df = pd.DataFrame({
                 'approved_date': [post['data']['approved_at_utc']],
                 'thread_id': [post['kind'] + " _ " + post['data']['id']],
